@@ -48,6 +48,24 @@ class Food:
             fill=FOOD_COLOR, tag="food"
         )
 
+def startGame():
+
+    global snake, food, score, direction, SPEED
+
+    canvas.delete(ALL)
+    drawGrid()
+
+    score = 0
+    direction = "down"
+    SPEED = 120
+
+    label.config(text="Score: 0")
+
+    snake = Snake()
+    food = Food()
+
+    nextTurn()
+
 
 def drawGrid():
     for x in range(0, GAME_WIDTH, SPACE_SIZE):
@@ -177,6 +195,35 @@ def restartGame():
 
     nextTurn()
 
+def startScreen():
+
+    canvas.delete(ALL)
+
+    canvas.create_text(
+        GAME_WIDTH/2,
+        GAME_HEIGHT/2 - 100,
+        text="SNAKE GAME",
+        font=('consolas', 60),
+        fill="lime"
+    )
+
+    start_button = Button(
+        window,
+        text="Start Game",
+        font=('consolas', 20),
+        command=startGame
+    )
+
+    exit_button = Button(
+        window,
+        text="Exit",
+        font=('consolas', 20),
+        command=window.quit
+    )
+
+    canvas.create_window(GAME_WIDTH/2, GAME_HEIGHT/2, window=start_button)
+    canvas.create_window(GAME_WIDTH/2, GAME_HEIGHT/2 + 80, window=exit_button)
+
 
 window = Tk()
 window.title("Snake Game")
@@ -200,9 +247,6 @@ window.bind('<Right>', lambda event: changeDirection('right'))
 window.bind('<Up>', lambda event: changeDirection('up'))
 window.bind('<Down>', lambda event: changeDirection('down'))
 
-snake = Snake()
-food = Food()
-
-nextTurn()
+startScreen()
 
 window.mainloop()
